@@ -6,4 +6,4 @@
 
 ## Enter localhost:4002/order url in browser or postman to check service is running or not
 
-## localhost:4002/graphiql is the url for graphiql interface for running query and mutation
+## localhost:4002/graphql is the url for graphiql interface for running query and mutation
