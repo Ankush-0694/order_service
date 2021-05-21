@@ -6,7 +6,7 @@ const { graphqlHTTP } = require("express-graphql");
 const { buildFederatedSchema } = require("@apollo/federation");
 
 const { ApolloServer, gql } = require("apollo-server");
-const { typeDefs, resolvers } = require("./schema/TestSchema");
+const { typeDefs, resolvers } = require("./schema/Schema");
 
 const connectDB = require("./config/db");
 connectDB();
