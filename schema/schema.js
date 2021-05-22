@@ -2,12 +2,35 @@ const { gql } = require("apollo-server");
 const Order = require("../models/Orders");
 
 const typeDefs = gql`
+  type Address {
+    fullName: String
+    phoneNumber: Int
+    pincode: Int
+    state: String
+    city: String
+    HouseNo: String
+    area: String
+    landmark: String
+  }
+
+  input AddressInput {
+    fullName: String
+    phoneNumber: Int
+    pincode: Int
+    state: String
+    city: String
+    HouseNo: String
+    area: String
+    landmark: String
+  }
+
   type Order {
     id: ID
     productName: String
     productDescription: String
     productPrice: Int
     quantity: Int
+    address: Address
   }
 
   type Query {
@@ -19,6 +42,7 @@ const typeDefs = gql`
       productDescription: String
       productPrice: Int
       quantity: Int
+      address: AddressInput
     ): Order
   }
 `;
@@ -36,7 +60,10 @@ const resolvers = {
         productDescription: args.productDescription,
         productPrice: args.productPrice,
         quantity: args.quantity,
+        address: args.address,
       });
+      console.log("hellos");
+
       return newOrder.save();
     },
   },
