@@ -32,7 +32,7 @@ const typeDefs = gql`
     address: Address
   }
 
-  type Query {
+  extend type Query {
     orders: [Order]
   }
   type Mutation {
