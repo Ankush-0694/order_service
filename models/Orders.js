@@ -9,7 +9,17 @@ const OrderSchema = new Schema({
   productName: String,
   productDescription: String,
   productPrice: Number,
-  // address: Object,
+
+  address: {
+    fullName: String,
+    phoneNumber: Number,
+    pincode: Number,
+    state: String,
+    city: String,
+    HouseNo: String,
+    area: String,
+    landmark: String,
+  },
 });
 
 module.exports = mongoose.model("Order", OrderSchema);
