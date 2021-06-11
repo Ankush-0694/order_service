@@ -1,28 +1,6 @@
 const { gql } = require("apollo-server");
 
 const OrderSchema = gql`
-  type Address {
-    fullName: String
-    phoneNumber: Int
-    pincode: Int
-    state: String
-    city: String
-    HouseNo: String
-    area: String
-    landmark: String
-  }
-
-  input AddressInput {
-    fullName: String
-    phoneNumber: Int
-    pincode: Int
-    state: String
-    city: String
-    HouseNo: String
-    area: String
-    landmark: String
-  }
-
   type Order {
     id: ID
     productName: String
@@ -35,13 +13,14 @@ const OrderSchema = gql`
   extend type Query {
     getAllOrders: [Order]
   }
-  type Mutation {
+
+  extend type Mutation {
     addOrder(
       productName: String
       productDescription: String
       productPrice: Int
       quantity: Int
-      address: AddressInput
+      addressID: ID # here we may only need to address ID as reference to the which address it should have
     ): Order
   }
 `;

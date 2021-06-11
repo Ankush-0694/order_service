@@ -1,7 +1,8 @@
 const Order = require("../../../models/Orders");
 
 const getAllOrdersData = async () => {
-  return await Order.find({});
+  const orderToreturn = await Order.find({}).populate("address");
+  return orderToreturn;
 };
 
 const addOrderData = async (newOrder) => {
