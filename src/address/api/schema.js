@@ -2,6 +2,7 @@ const { gql } = require("apollo-server");
 
 const AddressSchema = gql`
   type Address {
+    id: ID
     fullName: String
     phoneNumber: Int
     pincode: Int

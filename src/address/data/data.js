@@ -4,7 +4,7 @@ const getAllAddressData = () => {
   return Address.find({});
 };
 const addAddressData = async (newAddress) => {
-  const addressToSave = await new Address(newAddress);
-  return addressToSave.save();
+  const addressToSave = new Address(newAddress);
+  return await addressToSave.save();
 };
 module.exports = { getAllAddressData, addAddressData };

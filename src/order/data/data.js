@@ -6,8 +6,8 @@ const getAllOrdersData = async () => {
 };
 
 const addOrderData = async (newOrder) => {
-  const orderToSave = await new Order(newOrder);
-  return orderToSave.save();
+  const orderToSave = new Order(newOrder);
+  return await orderToSave.save();
 };
 
 module.exports = { getAllOrdersData, addOrderData };
