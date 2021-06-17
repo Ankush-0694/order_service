@@ -28,6 +28,20 @@ const AddressSchema = gql`
       area: String
       landmark: String
     ): Address
+
+    updateAddress(
+      addressID: ID
+      fullName: String
+      phoneNumber: Int
+      pincode: Int
+      state: String
+      city: String
+      HouseNo: String
+      area: String
+      landmark: String
+    ): Address
+
+    deleteAddress(addressID: ID): Address
   }
 `;
 
