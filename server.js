@@ -5,6 +5,7 @@ const { buildFederatedSchema } = require("@apollo/federation");
 const { ApolloServer, gql } = require("apollo-server");
 const { resolvers } = require("./src/GraphQL");
 const { OrderSchema } = require("./src/order/api/schema");
+const { AddressSchema } = require("./src/address/api/schema");
 const { mergeTypes } = require("merge-graphql-schemas");
 
 const connectDB = require("./config/db");
@@ -12,10 +13,12 @@ connectDB();
 
 app.use(cors());
 
+const typeDefs = gql`
+  ${mergeTypes([OrderSchema, AddressSchema])}
+`;
+
 const apolloServer = new ApolloServer({
-  schema: buildFederatedSchema([
-    { typeDefs: OrderSchema, resolvers: resolvers },
-  ]),
+  schema: buildFederatedSchema([{ typeDefs: typeDefs, resolvers: resolvers }]),
 });
 
 const port = 5001;

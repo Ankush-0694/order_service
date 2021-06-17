@@ -10,7 +10,7 @@ const addOrderLogic = (parent, args, context, info) => {
     productDescription: args.productDescription,
     productPrice: args.productPrice,
     quantity: args.quantity,
-    address: args.address,
+    address: args.addressID,
   };
   return addOrderData(newOrder);
 };

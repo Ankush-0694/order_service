@@ -9,17 +9,8 @@ const OrderSchema = new Schema({
   productName: String,
   productDescription: String,
   productPrice: Number,
-
-  address: {
-    fullName: String,
-    phoneNumber: Number,
-    pincode: Number,
-    state: String,
-    city: String,
-    HouseNo: String,
-    area: String,
-    landmark: String,
-  },
+  address: { type: Schema.Types.ObjectId, ref: "Address" },
+  //one to one relationship to the address form
 });
 
 module.exports = mongoose.model("Order", OrderSchema);
