@@ -2,15 +2,41 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
-  // orderedDate: Date.now(),
-  // deliveredDate: Date.now(),
-  // status: ["Pending, Delivered"], ///enum
-  quantity: Number,
-  productName: String,
-  productDescription: String,
-  productPrice: Number,
+  orderedDate: {
+    type: Date,
+    default: Date.now(),
+  },
+
+  DeliveredDate: {
+    type: Date,
+    // default: Date.now(),
+  },
+  totalQuantity: {
+    type: Number,
+  },
+  totalPrice: {
+    type: Number,
+  },
+  productDetails: [
+    {
+      type: Schema.Types.ObjectId,
+    },
+  ],
+
+  // Pending , shipped , placed, Cancelled
+  status: {
+    type: String,
+    default: "Pending",
+  },
+  deliveryCharge: {
+    type: Number,
+    default: 0,
+  },
+  paymentMode: {
+    type: String,
+    default: "COD",
+  },
   address: { type: Schema.Types.ObjectId, ref: "Address" },
-  //one to one relationship to the address form
 });
 
 module.exports = mongoose.model("Order", OrderSchema);

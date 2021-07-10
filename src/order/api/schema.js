@@ -1,12 +1,17 @@
 const { gql } = require("apollo-server");
 
+// instead of product try to refernce to cart
 const OrderSchema = gql`
   type Order {
     id: ID
-    productName: String
-    productDescription: String
-    productPrice: Int
-    quantity: Int
+    orderedDate: String
+    DeliveredDate: String
+    totalQuantity: Int
+    totalPrice: Int
+    productDetails: [Cart] # need to add resoolver for productDetails in Order Schema Resolver
+    status: String
+    deliveryCharge: Int
+    paymentMode: String
     address: Address
   }
 
@@ -14,15 +19,32 @@ const OrderSchema = gql`
     getAllOrders: [Order]
   }
 
+  #to extend the Product Type , provide a key id by which product will be resolved by reference
+  extend type Product @key(fields: "id") {
+    # this extend the product type ,
+    #but neeed to use external to make sure that this id comes from other services
+    id: ID @external
+  }
+
+  extend type Cart @key(fields: "productID") {
+    productID: ID @external
+  }
+
   extend type Mutation {
     addOrder(
-      productName: String
-      productDescription: String
-      productPrice: Int
-      quantity: Int
-      addressID: ID # here we may only need to address ID as reference to the which address it should have
+      totalQuantity: Int
+      totalPrice: Int
+      productID: [ID]
+      deliveryCharge: Int
+      paymentMode: String
+      addressID: ID # no need to use refernce resolve because order and address are in same service
     ): Order
   }
 `;
 
 module.exports = { OrderSchema };
+
+//  productName: String;
+//  productDescription: String;
+//  productPrice: Int;
+//  quantity: Int;

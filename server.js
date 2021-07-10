@@ -24,13 +24,13 @@ const apolloServer = new ApolloServer({
 const port = 5001;
 
 apolloServer.listen({ port }).then(({ url }) => {
-  console.log(`Apollo Server ready at url ${url}`);
+  console.log(`Order's Apollo Server ready at url ${url}`);
 });
 
 app.get("/order", (req, res) => {
-  res.send("order service is  in your service");
+  res.send("order service success");
 });
 
 app.listen(4002, () => {
-  console.log("server listening to port 4002");
+  console.log("Order server listening to port 4002");
 });
