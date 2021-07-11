@@ -3,6 +3,13 @@ const Address = require("../../../models/Address");
 const getAllAddressData = () => {
   return Address.find({});
 };
+
+// this function is not used in query instead we are calling from
+// order logic to send address data after adding the order
+const getAddressById = async (id) => {
+  return await Address.findById(id);
+};
+
 const addAddressData = async (newAddress) => {
   const addressToSave = new Address(newAddress);
   return await addressToSave.save();
@@ -29,6 +36,7 @@ const deleteAddressData = async (addressID) => {
 
 module.exports = {
   getAllAddressData,
+  getAddressById,
   addAddressData,
   updateAddressData,
   deleteAddressData,
