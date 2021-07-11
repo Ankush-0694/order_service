@@ -17,9 +17,10 @@ const OrderSchema = new Schema({
   totalPrice: {
     type: Number,
   },
-  productDetails: [
+  productDetailsWithQuantity: [
     {
-      type: Schema.Types.ObjectId,
+      productDetails: { type: Schema.Types.ObjectId },
+      quantity: Number,
     },
   ],
 

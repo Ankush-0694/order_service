@@ -1,14 +1,24 @@
 const { gql } = require("apollo-server");
 
-// instead of product try to refernce to cart
 const OrderSchema = gql`
+  type ProductDetailsWithQuantity {
+    productDetails: Product
+    quantity: Int
+  }
+
+  # we need to specify input type for mutation argumenmts type
+  input ProductDetailsWithQuantityInput {
+    productDetails: [ID]
+    quantity: Int
+  }
+
   type Order {
     id: ID
     orderedDate: String
     DeliveredDate: String
     totalQuantity: Int
     totalPrice: Int
-    productDetails: [Cart] # need to add resoolver for productDetails in Order Schema Resolver
+    productDetailsWithQuantity: [ProductDetailsWithQuantity] # need to add resoolver for productDetails in Order Schema Resolver
     status: String
     deliveryCharge: Int
     paymentMode: String
@@ -26,15 +36,11 @@ const OrderSchema = gql`
     id: ID @external
   }
 
-  extend type Cart @key(fields: "productID") {
-    productID: ID @external
-  }
-
   extend type Mutation {
     addOrder(
       totalQuantity: Int
       totalPrice: Int
-      productID: [ID]
+      productDetailsWithQuantity: [ProductDetailsWithQuantityInput]
       deliveryCharge: Int
       paymentMode: String
       addressID: ID # no need to use refernce resolve because order and address are in same service

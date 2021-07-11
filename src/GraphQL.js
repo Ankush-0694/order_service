@@ -12,13 +12,22 @@ const resolvers = {
     ...OrderMutation,
     ...AddressMutation,
   },
-  // resolver for order field to get the product details
+
+  /** Reference Resolver for some particular(productDetailsWithQuantity) field in the order schema */
   Order: {
-    productDetails(order) {
-      return order.productDetails.map((id) => {
-        // productDetails array comes from db which have array of ids, then here we mapped it
-        // then it will go to cart as a ref Object, there we resolve it and get the data and return it
-        return { __typename: "Cart", productID: id };
+    /** this is the field which needs to be resolved. Remember to name that Field precisely */
+    productDetailsWithQuantity(order) {
+      return order.productDetailsWithQuantity.map((mappedData) => {
+        const id = mappedData.productDetails;
+
+        /**This gave us the product data from product service */
+        const productData = {
+          __typename: "Product",
+          id,
+        };
+
+        /** Need to specify exactly type of data this resolving field (productDetailsWithQuantity) should return  */
+        return { productDetails: productData, quantity: mappedData.quantity };
       });
     },
   },

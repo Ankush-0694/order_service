@@ -9,7 +9,7 @@ const addOrderLogic = async (parent, args, context, info) => {
   let newOrder = {
     totalQuantity: args.totalQuantity,
     totalPrice: args.totalPrice,
-    productDetails: args.productID,
+    productDetailsWithQuantity: args.productDetailsWithQuantity,
     deliveryCharge: args.deliveryCharge,
     paymentMode: args.paymentMode,
     address: args.addressID,
