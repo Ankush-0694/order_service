@@ -4,6 +4,8 @@ const OrderSchema = gql`
   type ProductDetailsWithQuantity {
     productDetails: Product
     quantity: Int
+    orderStatus: String
+    deliveredDate: String
   }
 
   # we need to specify input type for mutation argumenmts type
@@ -27,6 +29,7 @@ const OrderSchema = gql`
 
   extend type Query {
     getAllOrders: [Order]
+    getOrderById(orderID: ID): Order
   }
 
   #to extend the Product Type , provide a key id by which product will be resolved by reference

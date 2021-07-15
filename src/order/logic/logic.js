@@ -1,8 +1,17 @@
 const { getAddressById } = require("../../address/data/data");
-const { addOrderData, getAllOrdersData } = require("../data/data");
+const {
+  addOrderData,
+  getAllOrdersData,
+  getOrderByIdData,
+} = require("../data/data");
 
 const getAllOrdersLogic = () => {
   return getAllOrdersData();
+};
+
+const getOrderByIdLogic = (parent, args, context, info) => {
+  const orderID = args.orderID;
+  return getOrderByIdData(orderID);
 };
 
 const addOrderLogic = async (parent, args, context, info) => {
@@ -26,4 +35,4 @@ const addOrderLogic = async (parent, args, context, info) => {
   return savedOrder;
 };
 
-module.exports = { getAllOrdersLogic, addOrderLogic };
+module.exports = { getAllOrdersLogic, getOrderByIdLogic, addOrderLogic };

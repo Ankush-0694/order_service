@@ -7,10 +7,6 @@ const OrderSchema = new Schema({
     default: Date.now(),
   },
 
-  DeliveredDate: {
-    type: Date,
-    // default: Date.now(),
-  },
   totalQuantity: {
     type: Number,
   },
@@ -20,15 +16,20 @@ const OrderSchema = new Schema({
   productDetailsWithQuantity: [
     {
       productDetails: { type: Schema.Types.ObjectId },
+      deliveredDate: {
+        type: Date,
+        default: new Date(2021, 7, 20),
+      },
+      orderStatus: {
+        type: String,
+        default: "Pending",
+      },
       quantity: Number,
     },
   ],
 
   // Pending , shipped , placed, Cancelled
-  status: {
-    type: String,
-    default: "Pending",
-  },
+
   deliveryCharge: {
     type: Number,
     default: 0,

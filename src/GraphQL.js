@@ -18,7 +18,11 @@ const resolvers = {
     /** this is the field which needs to be resolved. Remember to name that Field precisely */
     productDetailsWithQuantity(order) {
       return order.productDetailsWithQuantity.map((mappedData) => {
+        /* Getting id of product to passed as a ref to product  reference resolver */
         const id = mappedData.productDetails;
+
+        /** Destrurcturing to return the other data same as before with the productData */
+        const { quantity, orderStatus, deliveredDate } = mappedData;
 
         /**This gave us the product data from product service */
         const productData = {
@@ -27,7 +31,13 @@ const resolvers = {
         };
 
         /** Need to specify exactly type of data this resolving field (productDetailsWithQuantity) should return  */
-        return { productDetails: productData, quantity: mappedData.quantity };
+        return {
+          productDetails: productData,
+          /** Extra fields from here now on , which needs to be returned */
+          quantity,
+          orderStatus,
+          deliveredDate,
+        };
       });
     },
   },

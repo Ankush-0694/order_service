@@ -5,6 +5,11 @@ const getAllOrdersData = async () => {
   return orderToreturn;
 };
 
+const getOrderByIdData = async (orderID) => {
+  const orderToreturn = await Order.findById(orderID).populate("address");
+  return orderToreturn;
+};
+
 const addOrderData = async (newOrder) => {
   const orderToSave = new Order(newOrder);
 
@@ -17,4 +22,4 @@ const addOrderData = async (newOrder) => {
   return savedOrder;
 };
 
-module.exports = { getAllOrdersData, addOrderData };
+module.exports = { getAllOrdersData, getOrderByIdData, addOrderData };
