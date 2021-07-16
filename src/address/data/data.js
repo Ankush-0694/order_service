@@ -1,7 +1,7 @@
 const Address = require("../../../models/Address");
 
-const getAllAddressData = () => {
-  return Address.find({});
+const getAllAddressData = async () => {
+  return await Address.find({});
 };
 
 // this function is not used in query instead we are calling from
