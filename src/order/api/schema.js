@@ -17,7 +17,6 @@ const OrderSchema = gql`
   type Order {
     id: ID
     orderedDate: String
-    DeliveredDate: String
     totalQuantity: Int
     totalPrice: Int
     productDetailsWithQuantity: [ProductDetailsWithQuantity] # need to add resoolver for productDetails in Order Schema Resolver
