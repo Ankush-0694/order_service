@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const { buildFederatedSchema } = require("@apollo/federation");
-const { ApolloServer, gql } = require("apollo-server");
+const { ApolloServer, gql } = require("apollo-server-express");
 const { resolvers } = require("./src/GraphQL");
 const { OrderSchema } = require("./src/order/api/schema");
 const { AddressSchema } = require("./src/address/api/schema");
@@ -19,18 +19,22 @@ const typeDefs = gql`
 
 const apolloServer = new ApolloServer({
   schema: buildFederatedSchema([{ typeDefs: typeDefs, resolvers: resolvers }]),
+  context: ({ req }) => {
+    const user = req.headers.user ? JSON.parse(req.headers.user) : null;
+    return { user };
+  },
 });
 
-const port = 5001;
+async function startServer() {
+  await apolloServer.start();
 
-apolloServer.listen({ port }).then(({ url }) => {
-  console.log(`Order's Apollo Server ready at url ${url}`);
-});
+  apolloServer.applyMiddleware({ app });
 
-app.get("/order", (req, res) => {
-  res.send("order service success");
-});
+  await app.listen({ port: 4002 });
 
-app.listen(4002, () => {
-  console.log("Order server listening to port 4002");
-});
+  console.log(
+    `🚀 Order Server ready at http://localhost:4002${apolloServer.graphqlPath}`
+  );
+}
+
+startServer();
