@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
+  customerId: {
+    type: String,
+  },
   orderedDate: {
     type: Date,
     default: Date.now(),

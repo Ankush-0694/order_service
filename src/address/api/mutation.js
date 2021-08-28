@@ -1,25 +1,26 @@
-const {
-  addAddressLogic,
-  updateAddressLogic,
-  deleteAddressLogic,
-} = require("../logic/logic");
+const { requiresRole } = require("../../utils/requireRole");
+const { AddressLogic } = require("../logic/logic");
 
-const addAddress = async (parent, args, context, info) => {
-  return addAddressLogic(parent, args, context, info);
+const AddressMutationResolvers = {
+  add: (parent, args, context, info) => {
+    return AddressLogic.add(parent, args, context, info);
+  },
+
+  update: (parent, args, context, info) => {
+    return AddressLogic.update(parent, args, context, info);
+  },
+
+  delete: (parent, args, context, info) => {
+    return AddressLogic.delete(parent, args, context, info);
+  },
 };
 
-const updateAddress = async (parent, args, context, info) => {
-  return updateAddressLogic(parent, args, context, info);
-};
-
-const deleteAddress = async (parent, args, context, info) => {
-  return deleteAddressLogic(parent, args, context, info);
-};
+const { add, update } = AddressMutationResolvers;
 
 const AddressMutation = {
-  addAddress: addAddress,
-  updateAddress: updateAddress,
-  deleteAddress: deleteAddress,
+  addAddress: requiresRole("customer", add),
+  updateAddress: requiresRole("customer", update),
+  deleteAddress: requiresRole("customer", AddressMutationResolvers.delete),
 };
 
 module.exports = { AddressMutation };

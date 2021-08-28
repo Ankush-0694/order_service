@@ -1,38 +1,46 @@
-const { getAddressById } = require("../../address/data/data");
-const {
-  addOrderData,
-  getAllOrdersData,
-  getOrderByIdData,
-} = require("../data/data");
+const { OrderData } = require("../data/data");
 
-const getAllOrdersLogic = () => {
-  return getAllOrdersData();
+const OrderLogic = {
+  /** For Queries */
+
+  getAll: () => {
+    return OrderData.getAll();
+  },
+
+  getByOrderId: (parent, args, context, info) => {
+    const orderID = args.orderID;
+    return OrderData.getByOrderId(orderID);
+  },
+
+  getByCustomerId: (parent, args, context, info) => {
+    const customerId = context.user.public_id;
+    return OrderData.getByCustomerId(customerId);
+  },
+
+  /** For Mutations */
+
+  add: (parent, args, context, info) => {
+    const {
+      totalQuantity,
+      totalPrice,
+      productDetailsWithQuantity,
+      deliveryCharge,
+      paymentMode,
+      addressID,
+    } = args;
+
+    const customerId = context.user.public_id; // passed for every request ( added in context of every service using gateway)
+
+    return OrderData.add(
+      customerId,
+      totalQuantity,
+      totalPrice,
+      productDetailsWithQuantity,
+      deliveryCharge,
+      paymentMode,
+      addressID
+    );
+  },
 };
 
-const getOrderByIdLogic = (parent, args, context, info) => {
-  const orderID = args.orderID;
-  return getOrderByIdData(orderID);
-};
-
-const addOrderLogic = async (parent, args, context, info) => {
-  let newOrder = {
-    totalQuantity: args.totalQuantity,
-    totalPrice: args.totalPrice,
-    productDetailsWithQuantity: args.productDetailsWithQuantity,
-    deliveryCharge: args.deliveryCharge,
-    paymentMode: args.paymentMode,
-    address: args.addressID,
-  };
-  let savedOrder = await addOrderData(newOrder);
-
-  // fetching address data using id from address module to send
-  // address data in response when we addOrder
-
-  const addressID = savedOrder.address;
-  let addressData = await getAddressById(addressID);
-  savedOrder.address = addressData;
-
-  return savedOrder;
-};
-
-module.exports = { getAllOrdersLogic, getOrderByIdLogic, addOrderLogic };
+module.exports = { OrderLogic };

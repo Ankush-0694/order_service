@@ -1,11 +1,16 @@
-const { addOrderLogic } = require("../logic/logic");
+const { requiresRole } = require("../../utils/requireRole");
+const { OrderLogic } = require("../logic/logic");
 
-const addOrder = async (parent, args, context, info) => {
-  return addOrderLogic(parent, args, context, info);
+const OrderMutationResolvers = {
+  add: (parent, args, context, info) => {
+    return OrderLogic.add(parent, args, context, info);
+  },
 };
 
+const { add } = OrderMutationResolvers;
+
 const OrderMutation = {
-  addOrder: addOrder,
+  addOrder: requiresRole("customer", add),
 };
 
 module.exports = { OrderMutation };
