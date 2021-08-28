@@ -3,6 +3,7 @@ const { gql } = require("apollo-server");
 const AddressSchema = gql`
   type Address {
     id: ID
+    customerId: String
     fullName: String
     phoneNumber: Int
     pincode: Int
@@ -15,6 +16,7 @@ const AddressSchema = gql`
 
   extend type Query {
     getAllAddress: [Address]
+    getAddressesByCustomerId: [Address]
   }
 
   extend type Mutation {

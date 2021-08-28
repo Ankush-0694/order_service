@@ -1,52 +1,71 @@
-const {
-  getAllAddressData,
-  addAddressData,
-  updateAddressData,
-  deleteAddressData,
-} = require("../data/data");
+const { AddressData } = require("../data/data");
 
-const getAllAddressLogic = () => {
-  return getAllAddressData();
-};
+const AddressLogic = {
+  /** For Queries */
+  getAll: () => {
+    return AddressData.getAll();
+  },
 
-const addAddressLogic = (parent, args, context, info) => {
-  const newAddress = {
-    fullName: args.fullName,
-    phoneNumber: args.phoneNumber,
-    pincode: args.pincode,
-    state: args.state,
-    city: args.city,
-    HouseNo: args.HouseNo,
-    area: args.area,
-    landmark: args.landmark,
-  };
-  return addAddressData(newAddress);
-};
+  getByCustomerId: (parent, args, context, info) => {
+    const customerId = context.user.public_id;
+    return AddressData.getByCustomerId(customerId);
+  },
 
-const updateAddressLogic = (parent, args, context, info) => {
-  const addressID = args.addressID;
-  // console.log(addressID);
-  const updatedAddress = {
-    fullName: args.fullName,
-    phoneNumber: args.phoneNumber,
-    pincode: args.pincode,
-    state: args.state,
-    city: args.city,
-    HouseNo: args.HouseNo,
-    area: args.area,
-    landmark: args.landmark,
-  };
-  return updateAddressData(addressID, updatedAddress);
-};
+  /** For Mutations */
 
-const deleteAddressLogic = async (parent, args, context, info) => {
-  const addressID = args.addressID;
-  return deleteAddressData(addressID);
+  add: (parent, args, context, info) => {
+    const {
+      fullName,
+      phoneNumber,
+      pincode,
+      state,
+      city,
+      HouseNo,
+      area,
+      landmark,
+    } = args;
+
+    const customerId = context.user.public_id;
+
+    return AddressData.add(
+      customerId,
+      fullName,
+      phoneNumber,
+      pincode,
+      state,
+      city,
+      HouseNo,
+      area,
+      landmark
+    );
+  },
+
+  update: (parent, args, context, info) => {
+    const addressID = args.addressID;
+
+    const updatedAddress = {
+      fullName: args.fullName,
+      phoneNumber: args.phoneNumber,
+      pincode: args.pincode,
+      state: args.state,
+      city: args.city,
+      HouseNo: args.HouseNo,
+      area: args.area,
+      landmark: args.landmark,
+    };
+
+    /** No need to pass customer id because we never change
+     * customer id (and we are updating the data not replacing)  */
+
+    return AddressData.update(addressID, updatedAddress);
+  },
+
+  delete: async (parent, args, context, info) => {
+    const addressID = args.addressID;
+    return AddressData.delete(addressID);
+  },
 };
 
 module.exports = {
-  getAllAddressLogic,
-  addAddressLogic,
-  updateAddressLogic,
-  deleteAddressLogic,
+  AddressLogic,
 };

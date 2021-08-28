@@ -1,25 +1,49 @@
 const Order = require("../../../models/Orders");
 
-const getAllOrdersData = async () => {
-  const orderToreturn = await Order.find({}).populate("address");
-  return orderToreturn;
+const OrderData = {
+  /** For Queries */
+  getAll: async () => {
+    const orderToreturn = await Order.find({}).populate("address");
+    return orderToreturn;
+  },
+
+  getByOrderId: async (orderID) => {
+    const orderToreturn = await Order.findById(orderID).populate("address");
+    return orderToreturn;
+  },
+
+  getByCustomerId: async (customerId) => {
+    const orderToreturn = await Order.find({ customerId }).populate("address");
+    return orderToreturn;
+  },
+
+  /** For Mutations */
+
+  add: async (
+    customerId,
+    totalQuantity,
+    totalPrice,
+    productDetailsWithQuantity,
+    deliveryCharge,
+    paymentMode,
+    addressID
+  ) => {
+    const orderToSave = new Order({
+      customerId,
+      totalQuantity,
+      totalPrice,
+      productDetailsWithQuantity,
+      deliveryCharge,
+      paymentMode,
+      address: addressID,
+    });
+
+    let savedOrder = await orderToSave.save(); // can't use populate here, will give error
+
+    return savedOrder.populate("address").execPopulate();
+  },
 };
 
-const getOrderByIdData = async (orderID) => {
-  const orderToreturn = await Order.findById(orderID).populate("address");
-  return orderToreturn;
+module.exports = {
+  OrderData,
 };
-
-const addOrderData = async (newOrder) => {
-  const orderToSave = new Order(newOrder);
-
-  let savedOrder = await orderToSave.save();
-
-  // Tried to find the address data to return with save address, because only id is sending to mutation response
-  // const addressID = savedOrder.address;
-  // let addressData = await Address.findById(addressID);
-
-  return savedOrder;
-};
-
-module.exports = { getAllOrdersData, getOrderByIdData, addOrderData };

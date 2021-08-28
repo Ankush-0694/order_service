@@ -8,7 +8,7 @@ const OrderSchema = gql`
     deliveredDate: String
   }
 
-  # we need to specify input type for mutation argumenmts type
+  # we needed to specify input type for mutation argumenmts type
   input ProductDetailsWithQuantityInput {
     productDetails: [ID]
     quantity: Int
@@ -16,10 +16,11 @@ const OrderSchema = gql`
 
   type Order {
     id: ID
+    customerId: String
     orderedDate: String
     totalQuantity: Int
     totalPrice: Int
-    productDetailsWithQuantity: [ProductDetailsWithQuantity] # need to add resoolver for productDetails in Order Schema Resolver
+    productDetailsWithQuantity: [ProductDetailsWithQuantity] # need to add resolver for productDetailsWithQuantity in Order Schema Resolver
     status: String
     deliveryCharge: Int
     paymentMode: String
@@ -28,7 +29,8 @@ const OrderSchema = gql`
 
   extend type Query {
     getAllOrders: [Order]
-    getOrderById(orderID: ID): Order
+    getOrderByOrderId(orderID: ID): Order
+    getOrdersByCustomerId: [Order]
   }
 
   #to extend the Product Type , provide a key id by which product will be resolved by reference
