@@ -5,8 +5,8 @@ const AddressSchema = gql`
     id: ID
     customerId: String
     fullName: String
-    phoneNumber: Int
-    pincode: Int
+    phoneNumber: String
+    pincode: String
     state: String
     city: String
     HouseNo: String
@@ -22,8 +22,8 @@ const AddressSchema = gql`
   extend type Mutation {
     addAddress(
       fullName: String
-      phoneNumber: Int
-      pincode: Int
+      phoneNumber: String
+      pincode: String
       state: String
       city: String
       HouseNo: String
@@ -34,8 +34,8 @@ const AddressSchema = gql`
     updateAddress(
       addressID: ID
       fullName: String
-      phoneNumber: Int
-      pincode: Int
+      phoneNumber: String
+      pincode: String
       state: String
       city: String
       HouseNo: String

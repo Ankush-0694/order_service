@@ -12,6 +12,10 @@ const OrderQueryResolvers = {
   getByCustomerId: (parent, args, context, info) => {
     return OrderLogic.getByCustomerId(parent, args, context, info);
   },
+
+  getByVendorId: () => {
+    return;
+  },
 };
 
 const { getAll, getByOrderId, getByCustomerId } = OrderQueryResolvers;
