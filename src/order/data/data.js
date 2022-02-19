@@ -17,6 +17,11 @@ const OrderData = {
     return orderToreturn;
   },
 
+  getByVendorIdOfProduct : async()=>{
+    const allOrders = await Order.find({});
+    return allOrders;
+  },
+
   /** For Mutations */
 
   add: async (

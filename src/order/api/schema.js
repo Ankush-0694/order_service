@@ -27,10 +27,22 @@ const OrderSchema = gql`
     address: Address
   }
 
+  type VendorOrderDetails{
+    productId : ID
+    vendorId: String
+    productName: String
+    productDescription: String
+    productPrice: Int
+    productImageUrl: String
+    orderId : ID
+  }
+  
+
   extend type Query {
     getAllOrders: [Order]
     getOrderByOrderId(orderID: ID): Order
     getOrdersByCustomerId: [Order]
+    getOrdersByVendorIdOfProduct: [VendorOrderDetails]
   }
 
   #to extend the Product Type , provide a key id by which product will be resolved by reference
