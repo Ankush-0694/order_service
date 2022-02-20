@@ -22,20 +22,21 @@ const OrderLogic = {
   getByVendorIdOfProduct : async(parent, args, context, info) => {
     const vendorId = context.user.public_id;
 
-    console.log({vendorId})
+    // console.log({vendorId})
     let allOrdersData = await OrderData.getByVendorIdOfProduct();
 
-    const OrderIdProductIdArray = [];
+    const OrderProductMapArray = [];
 
+
+    // could be better , but we are just creating a array with order and individual product
     allOrdersData.map((singleOrder)=>{
       singleOrder.productDetailsWithQuantity.map((singleProductDetails)=>{
-        OrderIdProductIdArray.push({orderId : singleOrder._id , productId : singleProductDetails.productDetails})
+        OrderProductMapArray.push({orderDetails : singleOrder, productData : singleProductDetails})
       })
     })
 
-    // console.log({OrderIdProductIdArray})
-
-    async function getData(productId, orderId){
+    // get product details using product by given rest api in product service
+    async function getProductDetails(productId){
       // const productId = singleItem.productId;
       try {
         const res =  await fetch(`http://localhost:4001/product/${String(productId)}`);
@@ -44,19 +45,39 @@ const OrderLogic = {
         // console.log({singleProduct})
         
         if(String(singleProduct.vendorId) == String(vendorId)){
-          return { ...singleProduct , productId : singleProduct._id, orderId };
+          return { ...singleProduct , productId : singleProduct._id };
         }
-        else{ 
-          return ""
-        } 
-       
       } catch (error) {
         console.error({error})
       }
     }
 
-    let vendorDataForOrder =  await Promise.all( [...OrderIdProductIdArray.map((singleItem)=> getData(singleItem.productId,singleItem.orderId))] ) 
 
+    let vendorDataForOrder =  await Promise.all( [...OrderProductMapArray.map(async(singleItem)=>{
+      const { orderDetails , productData } = singleItem;
+
+      const productId = productData.productDetails;
+
+      const productDetails = await getProductDetails(productId);
+
+      // console.log({productDetails})
+
+      // if for given product vendorId not matched then getProductDetails will return nothing
+      if(!productDetails) return "";
+     
+      return {
+        ...productDetails,
+        orderStatus : productData.orderStatus,
+        deliveredDate : productData.deliveredDate,
+        quantity : productData.quantity, 
+        orderedDate : orderDetails.orderedDate, 
+        orderId : orderDetails._id,
+        customerId : orderDetails.customerId
+      }
+
+    })]) 
+
+    // trim empty strings
     vendorDataForOrder = vendorDataForOrder.filter(data => data !== "");
 
     // console.log({vendorDataForOrder})

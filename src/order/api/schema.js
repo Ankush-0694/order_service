@@ -21,7 +21,6 @@ const OrderSchema = gql`
     totalQuantity: Int
     totalPrice: Int
     productDetailsWithQuantity: [ProductDetailsWithQuantity] # need to add resolver for productDetailsWithQuantity in Order Schema Resolver
-    status: String
     deliveryCharge: Int
     paymentMode: String
     address: Address
@@ -35,7 +34,13 @@ const OrderSchema = gql`
     productPrice: Int
     productImageUrl: String
     orderId : ID
+    customerId: String
+    orderedDate: String
+    quantity: Int
+    orderStatus: String
+    deliveredDate: String
   }
+
   
 
   extend type Query {

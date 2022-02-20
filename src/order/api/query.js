@@ -16,6 +16,7 @@ const OrderQueryResolvers = {
   getByVendorIdOfProduct: (parent, args, context, info) => {
     return OrderLogic.getByVendorIdOfProduct(parent, args, context, info);
   },
+
 };
 
 const { getAll, getByOrderId, getByCustomerId , getByVendorIdOfProduct } = OrderQueryResolvers;
@@ -24,7 +25,7 @@ const OrderQuery = {
   getAllOrders: requiresRole("admin", getAll),
   getOrderByOrderId: requiresRole("customer", getByOrderId),
   getOrdersByCustomerId: requiresRole("customer", getByCustomerId),
-  getOrdersByVendorIdOfProduct : getByVendorIdOfProduct
+  getOrdersByVendorIdOfProduct : getByVendorIdOfProduct, 
 };
 
 module.exports = { OrderQuery };
