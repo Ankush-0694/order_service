@@ -47,8 +47,36 @@ const OrderData = {
 
     return savedOrder.populate("address").execPopulate();
   },
+
+  changeOrderStatus : async(productId, orderId, newStatus)=>{
+    try {
+      const orderData = await Order.findById(orderId);
+      const productData = orderData.productDetailsWithQuantity;
+      console.log({orderData})
+      for(let singleProduct of productData){
+        if(singleProduct.productDetails == productId){
+          singleProduct.orderStatus = newStatus;
+
+          if(newStatus == "delivered"){
+            singleProduct.deliveredDate = new Date();
+          }
+        }
+
+      }
+
+      const newOrderData = await orderData.save();
+      console.log({newOrderData});
+
+      return `Changed Status to ${newStatus} successfully`;
+    } catch (error) {
+      console.log({error})
+      throw error;
+    }
+  }
 };
 
 module.exports = {
   OrderData,
 };
+
+

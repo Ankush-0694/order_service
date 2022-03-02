@@ -23,7 +23,9 @@ const { getAll, getByOrderId, getByCustomerId , getByVendorIdOfProduct } = Order
 
 const OrderQuery = {
   getAllOrders: requiresRole("admin", getAll),
-  getOrderByOrderId: requiresRole("customer", getByOrderId),
+  // getOrderByOrderId: requiresRole("customer", getByOrderId),
+  getOrderByOrderId: getByOrderId,
+
   getOrdersByCustomerId: requiresRole("customer", getByCustomerId),
   getOrdersByVendorIdOfProduct : getByVendorIdOfProduct, 
 };

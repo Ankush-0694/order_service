@@ -21,11 +21,11 @@ const OrderSchema = new Schema({
       productDetails: { type: Schema.Types.ObjectId },
       deliveredDate: {
         type: Date,
-        default: new Date(2021, 7, 20),
       },
       orderStatus: {
         type: String,
         default: "pending",
+        enum : ['delivered','cancelled', 'pending', 'returned', 'on the way'],
       },
       quantity: Number,
     },

@@ -109,6 +109,12 @@ const OrderLogic = {
       addressID
     );
   },
+
+  changeOrderStatus : (parent, args, context, info)=>{
+    const {productId , orderId, newStatus } = args;
+    return OrderData.changeOrderStatus(productId , orderId, newStatus);
+  }
+  
 };
 
 module.exports = { OrderLogic };

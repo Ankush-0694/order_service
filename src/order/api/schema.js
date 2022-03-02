@@ -66,6 +66,8 @@ const OrderSchema = gql`
       paymentMode: String
       addressID: ID # no need to use refernce resolve because order and address are in same service
     ): Order
+
+    changeOrderStatus(productId: String, orderId: String, newStatus: String): String
   }
 `;
 
