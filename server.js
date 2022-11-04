@@ -26,17 +26,17 @@ const apolloServer = new ApolloServer({
 });
 
 
-
+const PORT = process.env.PORT || 4002
 
 async function startServer() {
   await apolloServer.start();
 
   apolloServer.applyMiddleware({ app });
 
-  await app.listen({ port: 4002 });
+  await app.listen({ port: PORT });
 
   console.log(
-    `🚀 Order Server ready at http://localhost:4002${apolloServer.graphqlPath}`
+    `🚀 Order Server ready at http://localhost:${PORT + apolloServer.graphqlPath}`
   );
 }
 
